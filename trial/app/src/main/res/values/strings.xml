@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">trial</string>
+    <string name="app_name">Ambient Heart Monitor</string>
+    <string name="welcome_text">Ambient Stats\nMonitor</string>
+    <string name="button_text">See Diagnostics</string>
 </resources>
