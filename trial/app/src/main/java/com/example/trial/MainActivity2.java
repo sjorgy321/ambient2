@@ -5,15 +5,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
-import android.bluetooth.BluetoothManager;
-import android.bluetooth.BluetoothProfile;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
-import android.bluetooth.BluetoothGattDescriptor;
-import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -24,11 +21,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import java.util.Random;
 import java.util.UUID;
 
-import kotlinx.coroutines.channels.BroadcastChannel;
- public class MainActivity2 extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
 
     private TextView heartRateTextView;
     private View redDotView;
@@ -44,15 +39,19 @@ import kotlinx.coroutines.channels.BroadcastChannel;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        //Check to see if device has the ability to use BLE
+        if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)){
+            finish();
+        }
+
         bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
         heartRateTextView = findViewById(R.id.heartRateTextView);
         redDotView = findViewById(R.id.redDot);
         handler = new Handler();
-
         // Initialize with "trying to connect" message
         heartRateTextView.setText("Trying to connect...");
-
         //Start scanning for BLE devices
         startScan();
     }
@@ -65,13 +64,6 @@ import kotlinx.coroutines.channels.BroadcastChannel;
 
                 // Check if the scan result matches the Arduino's advertised name
                 if (ActivityCompat.checkSelfPermission(MainActivity2.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
                 if (result.getDevice().getName() != null && result.getDevice().getName().equals("AmbientMonitor")) {
@@ -90,11 +82,7 @@ import kotlinx.coroutines.channels.BroadcastChannel;
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
             return;
         }
         bluetoothAdapter.getBluetoothLeScanner().startScan(scanCallback);
