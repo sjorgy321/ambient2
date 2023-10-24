@@ -15,11 +15,46 @@
         android:text="Heart Rate: 0 BPM"
         android:textSize="24sp"
         android:layout_centerInParent="true" />
+
     <View
         android:id="@+id/redDot"
         android:layout_width="20dp"
-    android:layout_height="20dp"
-    android:background="@drawable/dot_shape"
-    android:layout_centerHorizontal="true" />
+        android:layout_height="20dp"
+        android:background="@drawable/dot_shape"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/scanCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/redDot"
+        android:layout_centerHorizontal="true"
+        android:text="Scanning Count: 0" />
+
+    <TextView
+        android:id="@+id/nearbyDevicesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/statusTextView"
+        android:layout_centerHorizontal="true"
+        android:text="Nearby Devices:"
+        android:textColor="#DD2C00" />
+
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scanCountTextView"
+        android:layout_centerHorizontal="true"
+        android:text="Status: " />
+
+    <com.example.trial.CircularProgressBar
+        android:id="@+id/circularProgressBar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:backgroundColor="#E0E0E0"
+        app:progress="50"
+        app:progressColor="#FF5733"
+        app:progressWidth="12dp" />
 
 </RelativeLayout>
